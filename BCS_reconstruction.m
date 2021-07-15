@@ -4,9 +4,10 @@ function [reconstructed_image] = BCS_reconstruction(y, phi, theta, image_reconst
     switch image_reconstruction_algorithm
         case 'l1_eq_pd' %Stable
             MIN_ENERGY          = theta'*y;
-            opt_results         = l1eq_pd(MIN_ENERGY, theta, [], y, 5e-3, 20); % L1-magic toolbox
+            opt_results         = l1eq_pd(MIN_ENERGY, theta, [], y, 1e-3); % L1-magic toolbox
             inv_transform       = ifwht(opt_results);
-            reconstructed_image = reshape(opt_results, sub_pixels, sub_pixels); %raster
+            reconstructed_image = reshape(inv_transform, 16, [])';
+            %reshape(inv_transform, 16, [])';
         case 'l1qc_logbarrier' %Stable
             MIN_ENERGY          = theta'*y;
             sigma               = 0.005;
